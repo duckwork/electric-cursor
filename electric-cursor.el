@@ -4,9 +4,9 @@
 ;; This file is NOT part of GNU Emacs.
 
 ;; Author: Case Duckworth <acdw@acdw.net>
-;; License: MIT
+;; License: ISC
 ;; Version: 0.1
-;; Package-Requires: ((emacs "26.0"))
+;; Package-Requires: ((emacs "23.2"))
 ;; Keywords: cursor, files
 ;; URL: https://github.com/duckwork/electric-cursor
 
@@ -16,6 +16,7 @@
 ;; automatically changes the cursor depending on the active mode(s).  The
 ;; precise modes and associated cursors can be customized with
 ;; `electric-cursor-alist', which maps modes with their respective cursors.
+
 ;; The default value of `electric-cursor-alist' maps `overwrite-mode' to 'block
 ;; and everything else to `bar'.
 
@@ -55,22 +56,24 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
                        (const :tag "Horizontal bar" hbar)
                        (const :tag "Horizontal bar with specified width"
                               (const hbar) integer)
-                       (const :tag "None" nil))))
+                       (const :tag "None" nil)))
+  :group 'electric-cursor)
 
 (defcustom electric-cursor-default-cursor 'bar
   "The default cursor to return to, if none of the modes in
   `electric-cursor-alist' apply."
-  :type (choice
-         (const :tag "Frame default" t)
-         (const :tag "Filled box" box)
-         (const :tag "Hollow cursor" hollow)
-         (const :tag "Vertical bar" bar)
-         (const :tag "Vertical bar with specified width"
-                (const bar) integer)
-         (const :tag "Horizontal bar" hbar)
-         (const :tag "Horizontal bar with specified width"
-                (const hbar) integer)
-         (const :tag "None" nil)))
+  :type '(choice
+          (const :tag "Frame default" t)
+          (const :tag "Filled box" box)
+          (const :tag "Hollow cursor" hollow)
+          (const :tag "Vertical bar" bar)
+          (const :tag "Vertical bar with specified width"
+                 (const bar) integer)
+          (const :tag "Horizontal bar" hbar)
+          (const :tag "Horizontal bar with specified width"
+                 (const hbar) integer)
+          (const :tag "None" nil))
+  :group 'electric-cursor)
 
 (defun electric-cursor-set-cursor ()
   "Set the cursor according to the modes and types defined in
