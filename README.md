@@ -16,7 +16,7 @@ The hooks are removed when you disable `electric-cursor-mode`.
 
 ## License
 
-The code in this repository is licensed under the MIT license.  See LICENSE for details.
+The code in this repository is licensed under the ISC license.  See LICENSE for details.
 
 ## Contributing
 
