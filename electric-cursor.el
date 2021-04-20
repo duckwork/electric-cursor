@@ -1,4 +1,4 @@
-;;; electric-cursor.el --- Change cursor automatically
+;;; electric-cursor.el --- Change cursor automatically -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2021 Case Duckworth
 ;; This file is NOT part of GNU Emacs.
@@ -16,7 +16,6 @@
 ;; automatically changes the cursor depending on the active mode(s).  The
 ;; precise modes and associated cursors can be customized with
 ;; `electric-cursor-alist', which maps modes with their respective cursors.
-
 ;; The default value of `electric-cursor-alist' maps `overwrite-mode' to 'block
 ;; and everything else to `bar'.
 
@@ -42,7 +41,7 @@ change the cursor's shape, dependent on the modes defined in
     (electric-cursor-remove-hooks)))
 
 (defcustom electric-cursor-alist '((overwrite-mode . box))
-  "The alist of modes and cursors that `electric-cursor-mode' should apply.
+  "The alist of modes and cursors for function `electric-cursor-mode'.
 
 The CAR of each element is the mode, and the CONS is the `cursor-type'."
   :type '(alist
@@ -60,8 +59,7 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
   :group 'electric-cursor)
 
 (defcustom electric-cursor-default-cursor 'bar
-  "The default cursor to return to, if none of the modes in
-  `electric-cursor-alist' apply."
+  "The cursor to use when no modes in `electric-cursor-alist' apply."
   :type '(choice
           (const :tag "Frame default" t)
           (const :tag "Filled box" box)
@@ -76,8 +74,7 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
   :group 'electric-cursor)
 
 (defun electric-cursor-set-cursor ()
-  "Set the cursor according to the modes and types defined in
-  `electric-cursor-alist'."
+  "Set the cursor according to `electric-cursor-alist'."
   (setq cursor-type
         (or (catch :found
               (dolist (spec electric-cursor-alist)
