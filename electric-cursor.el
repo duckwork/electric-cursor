@@ -18,6 +18,8 @@
 ;; `electric-cursor-alist', which maps modes with their respective cursors.
 ;; The default value of `electric-cursor-alist' maps `overwrite-mode' to 'block
 ;; and everything else to `bar'.
+;; The default cursor is defined by `electric-cursor-default-cursor', which
+;; defaults to `bar'.
 
 ;;; Prior Art:
 
