@@ -38,6 +38,8 @@ change the cursor's shape, dependent on the modes defined in
   :global t
   (if electric-cursor-mode
       (electric-cursor-add-hooks)
+    (unless (display-graphic-p)
+      (send-string-to-terminal "\e[0 q"))
     (electric-cursor-remove-hooks)))
 
 (defcustom electric-cursor-alist '((overwrite-mode . box))
@@ -75,12 +77,26 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
 
 (defun electric-cursor-set-cursor ()
   "Set the cursor according to `electric-cursor-alist'."
-  (setq cursor-type
-        (or (catch :found
-              (dolist (spec electric-cursor-alist)
-                (when (symbol-value (car spec))
-                  (throw :found (cdr spec)))))
-            electric-cursor-default-cursor)))
+  (let ((electric-cursor-type
+         (or (catch :found
+               (dolist (spec electric-cursor-alist)
+                 (when (symbol-value (car spec))
+                   (throw :found (cdr spec)))))
+             electric-cursor-default-cursor)))
+    (if (display-graphic-p)
+        (setq cursor-type electric-cursor-type)
+      (send-string-to-terminal
+       (concat "\e["
+               (let ((n (pcase (or (car-safe electric-cursor-type)
+                                   electric-cursor-type)
+                          ('box 2)
+                          ('bar 6)
+                          ('hbar 4)
+                          (_ 0))))
+                 (number-to-string (if blink-cursor-mode
+                                       (max (1- n) 0)
+                                     n)))
+               " q")))))
 
 (defun electric-cursor-add-hooks ()
   "Add hooks to the modes defined in `electric-cursor-alist'."
