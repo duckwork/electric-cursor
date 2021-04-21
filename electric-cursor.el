@@ -25,6 +25,9 @@
 
 ;;; Code:
 
+(defvar electric-cursor-original-cursor nil
+  "The original cursor type before `electric-cursor-mode'.")
+
 ;;;###autoload
 (define-minor-mode electric-cursor-mode
   "Toggle `electric-cursor-mode'.
@@ -37,7 +40,11 @@ change the cursor's shape, dependent on the modes defined in
   :keymap nil
   :global t
   (if electric-cursor-mode
-      (electric-cursor-add-hooks)
+      (progn
+        (setq electric-cursor-original-cursor cursor-type)
+        (electric-cursor-set-cursor)
+        (electric-cursor-add-hooks))
+    (setq cursor-type electric-cursor-original-cursor)
     (unless (display-graphic-p)
       (send-string-to-terminal "\e[0 q"))
     (electric-cursor-remove-hooks)))
