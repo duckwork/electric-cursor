@@ -82,6 +82,11 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
           (const :tag "None" nil))
   :group 'electric-cursor)
 
+(defcustom electric-cursor-set-in-terminal t
+  "Whether to set the cursor in a terminal."
+  :type 'boolean
+  :group 'electric-cursor)
+
 (defun electric-cursor-set-cursor ()
   "Set the cursor according to `electric-cursor-alist'."
   (let ((electric-cursor-type
@@ -90,20 +95,21 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
                  (when (symbol-value (car spec))
                    (throw :found (cdr spec)))))
              electric-cursor-default-cursor)))
-    (if (display-graphic-p)
-        (setq cursor-type electric-cursor-type)
-      (send-string-to-terminal
-       (concat "\e["
-               (let ((n (pcase (or (car-safe electric-cursor-type)
-                                   electric-cursor-type)
-                          ('box 2)
-                          ('bar 6)
-                          ('hbar 4)
-                          (_ 0))))
-                 (number-to-string (if blink-cursor-mode
-                                       (max (1- n) 0)
-                                     n)))
-               " q")))))
+    (cond ((display-graphic-p)
+           (setq cursor-type electric-cursor-type))
+          (electric-cursor-set-in-terminal
+           (send-string-to-terminal
+            (concat "\e["
+                    (let ((n (pcase (or (car-safe electric-cursor-type)
+                                        electric-cursor-type)
+                               ('box 2)
+                               ('bar 6)
+                               ('hbar 4)
+                               (_ 0))))
+                      (number-to-string (if blink-cursor-mode
+                                            (max (1- n) 0)
+                                          n)))
+                    " q"))))))
 
 (defun electric-cursor-add-hooks ()
   "Add hooks to the modes defined in `electric-cursor-alist'."
