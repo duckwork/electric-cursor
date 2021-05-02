@@ -14,6 +14,14 @@ For example, the default looks like this:
 When you enable `electric-cursor-mode`, it adds hooks to each mode in `electric-cursor-alist` to set the cursor according to `electric-cursor-alist`.
 The hooks are removed when you disable `electric-cursor-mode`.
 
+## Install
+
+You can find `electric-cursor` on [MELPA](https://melpa.org/#/electric-cursor), so it's installable via `package.el`, `straight.el`, or whatever.  Of course, you can also clone this repository and put it somewhere Emacs will know about it.  After that, just do this:
+
+```lisp
+(electric-cursor-mode +1)
+```
+
 ## License
 
 The code in this repository is licensed under the ISC license.  See LICENSE for details.
