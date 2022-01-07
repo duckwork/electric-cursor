@@ -93,7 +93,7 @@ The CAR of each element is the mode, and the CONS is the `cursor-type'."
   (let ((electric-cursor-type
          (or (catch :found
                (dolist (spec electric-cursor-alist)
-                 (when (symbol-value (car spec))
+                 (when (bound-and-true-p (symbol-value (car spec)))
                    (throw :found (cdr spec)))))
              electric-cursor-default-cursor)))
     (cond ((display-graphic-p)
