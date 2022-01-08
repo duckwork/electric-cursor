@@ -6,7 +6,7 @@
 ;; Author: Case Duckworth <acdw@acdw.net>
 ;; License: ISC
 ;; SPDX-License-Identifier: ISC
-;; Version: 0.1
+;; Version: 0.1.1
 ;; Package-Requires: ((emacs "24.1"))
 ;; Keywords: cursor, files
 ;; URL: https://github.com/duckwork/electric-cursor
